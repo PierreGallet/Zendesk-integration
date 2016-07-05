@@ -27,7 +27,7 @@ var computeProposals = function(list) {
         args: list
     };
     
-    PythonShell.run('../machine_learning/main.py', options, function(err, message) {
+    PythonShell.run('machine_learning/main.py', options, function(err, message) {
         if (err) {console.log(err);}
         console.log(message);
         return message;
