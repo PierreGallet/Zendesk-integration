@@ -8,14 +8,37 @@ var config = require('config');
 var getListComments = function(json) {
     var i = 1;
     var text = "";
-    var obj = {};
+    var obj = [];
         json.comments.forEach(function(e){
             if (e.type == "Comment") {
-                obj["Comment"+i]= e.body;
+                obj.push(e.body);
                 i++;
             }
         });
     return obj;
+};
+
+var computeProposals = function(list) {
+    var PythonShell = require('python-shell');
+    var pyShell = new PythonShell('../machine_learning/main.py');
+    
+    pyShell.send(list.length);
+    
+    list.forEach(function(e) {
+        pyShell.send(e);
+    });
+    
+    var proposals = {};
+    var i = 1;
+    pyShell.on('message', function(message) {
+        proposals['Comment'+i] = message;
+        console.log(message);
+        i++;
+        if (i===3) {
+            pyShell.end(function(err) {});
+            return proposals;
+        }
+    });
 };
 
 var getComments = function (id, resp) {
@@ -33,7 +56,8 @@ var getComments = function (id, resp) {
         });
         res.on('end', function() {
             json = JSON.parse(json);
-            var text = getListComments(json);
+            var listComments = getListComments(json);
+            var text = computeProposals(listComments);
             console.log(text);
             resp.send(text);
         });
