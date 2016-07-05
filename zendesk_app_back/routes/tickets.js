@@ -3,6 +3,7 @@
  */
 
 var https = require('https');
+var config = require('config');
 
 var getListComments = function(json) {
     var i = 1;
@@ -19,10 +20,10 @@ var getListComments = function(json) {
 
 var getComments = function (id, resp) {
     var options = {
-        host: 'djou.zendesk.com',
-        port: 443,
-        path: '/api/v2/tickets/' + id + '/comments.json',
-        auth: 'julien.raspaud@student.ecp.fr/token:GYiAvgMmVt7w6f8sZMPPEMU4UFPHX6tfEoCnYHYk'
+        host: config.get('zendesk.host'),
+        port: config.get('zendesk.port'),
+        path: config.get('zendesk.api_path') + '/tickets/' + id + '/comments.json',
+        auth: config.get('zendesk.auth')
     };
 
     var data = https.get(options, function (res) {

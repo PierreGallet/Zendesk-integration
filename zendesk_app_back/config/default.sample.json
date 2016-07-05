@@ -1,0 +1,8 @@
+{
+  "zendesk": {
+    "host": "<your_zendesk>.zendesk.com",
+    "port": "443",
+    "api_path": "/api/v2",
+    "auth": "<email>/token:<token>"
+  }
+}

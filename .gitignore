@@ -1,3 +1,4 @@
 node_modules
 .idea
 .DS_Store
+zendesk_app_back/config/default.json
