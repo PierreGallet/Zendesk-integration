@@ -20,25 +20,30 @@ var getListComments = function(json) {
 
 var computeProposals = function(list) {
     var PythonShell = require('python-shell');
-    var pyShell = new PythonShell('../machine_learning/main.py');
     
-    pyShell.send(list.length);
+    var options = {
+        mode: 'text',
+        pythonOptions: ['-u'],
+        args: list
+    };
     
-    list.forEach(function(e) {
-        pyShell.send(e);
+    PythonShell.run('../machine_learning/main.py', options, function(err, message) {
+        if (err) {console.log(err);}
+        console.log(message);
+        return message;
     });
     
-    var proposals = {};
+/*    var proposals = {};
     var i = 1;
     pyShell.on('message', function(message) {
         proposals['Comment'+i] = message;
         console.log(message);
         i++;
         if (i===3) {
-            pyShell.end(function(err) {});
+            pyShell.end(function(err) {console.log(err);});
             return proposals;
         }
-    });
+    }); */
 };
 
 var getComments = function (id, resp) {
