@@ -6,13 +6,10 @@ var https = require('https');
 var config = require('config');
 
 var getListComments = function(json) {
-    var i = 1;
-    var text = "";
     var obj = [];
-        json.comments.forEach(function(e){
+        json.comments.forEach( function(e) {
             if (e.type == "Comment") {
                 obj.push(e.body);
-                i++;
             }
         });
     return obj;
@@ -32,18 +29,6 @@ var computeProposals = function(list) {
         console.log(message);
         return message;
     });
-    
-/*    var proposals = {};
-    var i = 1;
-    pyShell.on('message', function(message) {
-        proposals['Comment'+i] = message;
-        console.log(message);
-        i++;
-        if (i===3) {
-            pyShell.end(function(err) {console.log(err);});
-            return proposals;
-        }
-    }); */
 };
 
 var getComments = function (id, resp) {
