@@ -15,7 +15,20 @@ var getListComments = function(json) {
     return obj;
 };
 
-var computeProposals = function(list) {
+var sendResult = function(res, message) {
+    res.send(message);
+};
+
+var getConfig = function(id) {
+    return {
+        host: config.get('zendesk.host'),
+        port: config.get('zendesk.port'),
+        path: config.get('zendesk.api_path') + '/tickets/' + id + '/comments.json',
+        auth: config.get('zendesk.auth')
+    };
+}
+
+var computeProposals = function(list, resp) {
     var PythonShell = require('python-shell');
     
     var options = {
@@ -27,17 +40,13 @@ var computeProposals = function(list) {
     PythonShell.run('machine_learning/main.py', options, function(err, message) {
         if (err) {console.log(err);}
         console.log(message);
-        return message;
+        sendResult(resp, message);
     });
 };
 
 var getComments = function (id, resp) {
-    var options = {
-        host: config.get('zendesk.host'),
-        port: config.get('zendesk.port'),
-        path: config.get('zendesk.api_path') + '/tickets/' + id + '/comments.json',
-        auth: config.get('zendesk.auth')
-    };
+
+    var options = getConfig(id);
 
     var data = https.get(options, function (res) {
         var json = "";
@@ -47,9 +56,7 @@ var getComments = function (id, resp) {
         res.on('end', function() {
             json = JSON.parse(json);
             var listComments = getListComments(json);
-            var text = computeProposals(listComments);
-            console.log(text);
-            resp.send(text);
+            computeProposals(listComments, resp);
         });
     });
 };
