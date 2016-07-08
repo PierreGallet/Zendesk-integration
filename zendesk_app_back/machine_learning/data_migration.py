@@ -2,10 +2,13 @@
 
 """ This file create a question.txt and answer.txt from a raw ticket """
 
+import os
+
 
 def chkdir():
     """ Create folder data/raw if it doesn't exists """
-    pass
+    if not os.path.exists("data/raw"):
+        os.makedirs("data/raw")
 
 def create_arrays():
     """ Create questions = [] ( array of array ) and answers = [] ( array ) """
@@ -20,4 +23,4 @@ def load_arrays():
 
 
 if __name__ == '__main__':
-    pass
+    chkdir()
