@@ -3,6 +3,7 @@
 """ This file create a question.txt and answer.txt from a raw ticket """
 
 import os
+import sys
 
 
 def chkdir():
@@ -24,3 +25,7 @@ def load_arrays():
 
 if __name__ == '__main__':
     chkdir()
+    # parse arguments and create an array of comments
+    ticket = []
+    for arg in sys.argv[1:]:
+        ticket.append(arg)
