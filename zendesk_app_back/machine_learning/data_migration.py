@@ -24,11 +24,26 @@ def split_interlocutors(array_comments, operator_name):
     client = []
     operator = []
 
-    for sentence in array_comments:
-        if re.match(r'%s:' % operator_name, sentence):
-            operator.append(sentence)
-        elif re.match(r'.*:', sentence):
-            client.append(sentence)
+    operator_talked = True
+
+    for item in array_comments:
+        try:
+            speaker, sentence = re.match(r'(.*?): (.*)', item).groups()
+            if speaker == operator_name:
+                if operator_talked:
+                    operator[-1] += ' ' + sentence
+                else:
+                    operator.append(sentence)
+                operator_talked = True
+            else:
+                if not operator_talked:
+                    client[-1] += ' ' + sentence
+                else:
+                    client.append(sentence)
+                operator_talked = False
+
+        except:
+            pass
 
     return client, operator
 
