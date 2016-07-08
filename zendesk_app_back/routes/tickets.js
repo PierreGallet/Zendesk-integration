@@ -43,7 +43,7 @@ var computeProposals = function(json, resp) {
     var PythonShell = require('python-shell');
 
     var body = getBody(json);
-    var args = ["chat", "body_private", body.body_private, "body_public", body.body_public];
+    var args = ["chat", body.body_private, body.body_public];
 
     var options = {
         mode: 'text',
