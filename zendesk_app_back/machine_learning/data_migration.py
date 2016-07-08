@@ -16,18 +16,15 @@ def get_operator_name(body_private):
     return operator_name
 
 def get_array_comments(body_public):
-    splitted = body_public.split('\n')
-    text=""
-    for e in splitted:
-        text+=e
-
-    return re.split('\([0-9]{2}:[0-9]{2}:[0-9]{2} [AP]M\)',text)[1:]
+    body_public = body_public.replace('\n', '')
+    return re.split('\([0-9]{2}:[0-9]{2}:[0-9]{2} [AP]M\)',body_public)[1:]
     
 
 def chkdir():
     """ Create folder data/raw if it doesn't exists """
     if not os.path.exists("data/raw"):
         os.makedirs("data/raw")
+
 
 def create_arrays():
     """ Create questions = [] ( array of array ) and answers = [] ( array ) """
