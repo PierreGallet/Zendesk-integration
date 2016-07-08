@@ -5,14 +5,25 @@
 var https = require('https');
 var config = require('config');
 
-var getListComments = function(json) {
-    var obj = [];
-        json.comments.forEach( function(e) {
-            if (e.type == "Comment") {
-                obj.push(e.body);
-            }
-        });
-    return obj;
+
+var getBody = function(json) {
+    var body_private = "",
+        body_public = "";
+
+    json.comments.forEach( function (item) {
+
+        if (item.type == "Comment" && item.public == false) {
+            body_private = body_private.concat(item.body).concat('\n');
+        }
+        else if (item.type == "Comment" && item.public == true) {
+            body_public = body_public.concat(item.body).concat('\n');
+        }
+    });
+
+    return {
+        body_private: body_private,
+        body_public: body_public
+    };
 };
 
 var sendResult = function(res, message) {
@@ -26,15 +37,18 @@ var getConfig = function(id) {
         path: config.get('zendesk.api_path') + '/tickets/' + id + '/comments.json',
         auth: config.get('zendesk.auth')
     };
-}
+};
 
-var computeProposals = function(list, resp) {
+var computeProposals = function(json, resp) {
     var PythonShell = require('python-shell');
-    
+
+    var body = getBody(json);
+    var args = ["chat", "body_private", body.body_private, "body_public", body.body_public];
+
     var options = {
         mode: 'text',
         pythonOptions: ['-u'],
-        args: list
+        args: args
     };
     
     PythonShell.run('machine_learning/main.py', options, function(err, message) {
@@ -55,8 +69,7 @@ var getComments = function (id, resp) {
         });
         res.on('end', function() {
             json = JSON.parse(json);
-            var listComments = getListComments(json);
-            computeProposals(listComments, resp);
+            computeProposals(json, resp);
         });
     });
 };
