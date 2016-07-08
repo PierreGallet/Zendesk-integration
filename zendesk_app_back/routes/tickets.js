@@ -51,7 +51,7 @@ var computeProposals = function(json, resp) {
         args: args
     };
     
-    PythonShell.run('machine_learning/main.py', options, function(err, message) {
+    PythonShell.run('machine_learning/data_migration.py', options, function(err, message) {
         if (err) {console.log(err);}
         console.log(message);
         sendResult(resp, message);

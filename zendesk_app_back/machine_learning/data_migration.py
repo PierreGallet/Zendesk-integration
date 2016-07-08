@@ -3,8 +3,17 @@
 """ This file create a question.txt and answer.txt from a raw ticket """
 
 import os
+import re
 import sys
 
+
+def get_operator_name(body_private):
+    try:
+        operator_name = re.search('^Served by: (.*)$', body_private, re.MULTILINE).group(1)
+    except AttributeError:
+        operator_name = ''
+
+    return operator_name
 
 def chkdir():
     """ Create folder data/raw if it doesn't exists """
@@ -25,7 +34,7 @@ def load_arrays():
 
 if __name__ == '__main__':
     chkdir()
-    # parse arguments and create an array of comments
-    ticket = []
-    for arg in sys.argv[1:]:
-        ticket.append(arg)
+
+    # parse arguments
+    ticket_type, body_private, body_public = sys.argv[1:]
+    print get_operator_name(body_private)
