@@ -19,6 +19,19 @@ def get_array_comments(body_public):
     body_public = body_public.replace('\n', '')
     return re.split('\([0-9]{2}:[0-9]{2}:[0-9]{2} [AP]M\) ',body_public)[1:]
 
+def split_interlocutors(array_comments, operator_name):
+    """ Return two parallel lists with matching indexes of questions ( client ) and answers ( operator ) """
+    client = []
+    operator = []
+
+    for sentence in array_comments:
+        if re.match(r'%s:' % operator_name, sentence):
+            operator.append(sentence)
+        elif re.match(r'.*:', sentence):
+            client.append(sentence)
+
+    return client, operator
+
 def chkdir():
     """ Create folder data/raw if it doesn't exists """
     if not os.path.exists("data/raw"):
@@ -42,4 +55,6 @@ if __name__ == '__main__':
 
     # parse arguments
     ticket_type, body_private, body_public = sys.argv[1:]
-    print get_array_comments(body_public)
+    client, operator = split_interlocutors(get_array_comments(body_public), get_operator_name(body_private))
+    print client
+    print operator
