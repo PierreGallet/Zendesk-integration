@@ -15,6 +15,15 @@ def get_operator_name(body_private):
 
     return operator_name
 
+def get_array_comments(body_public):
+    splitted = body_public.split('\n')
+    text=""
+    for e in splitted:
+        text+=e
+
+    return re.split('\([0-9]{2}:[0-9]{2}:[0-9]{2} [AP]M\)',text)[1:]
+    
+
 def chkdir():
     """ Create folder data/raw if it doesn't exists """
     if not os.path.exists("data/raw"):
@@ -37,4 +46,4 @@ if __name__ == '__main__':
 
     # parse arguments
     ticket_type, body_private, body_public = sys.argv[1:]
-    print get_operator_name(body_private)
+    print get_array_comments(body_public)
