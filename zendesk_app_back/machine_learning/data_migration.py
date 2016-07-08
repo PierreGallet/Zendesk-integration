@@ -17,8 +17,7 @@ def get_operator_name(body_private):
 
 def get_array_comments(body_public):
     body_public = body_public.replace('\n', '')
-    return re.split('\([0-9]{2}:[0-9]{2}:[0-9]{2} [AP]M\)',body_public)[1:]
-    
+    return re.split('\([0-9]{2}:[0-9]{2}:[0-9]{2} [AP]M\) ',body_public)[1:]
 
 def chkdir():
     """ Create folder data/raw if it doesn't exists """
