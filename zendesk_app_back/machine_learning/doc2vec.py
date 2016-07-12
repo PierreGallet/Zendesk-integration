@@ -15,10 +15,10 @@ logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=lo
 def training_doc2vec(path_sentences, size=10000):
     documents = TaggedLineDocument(path_sentences)
     model = Doc2Vec(documents, size, window=15, min_count=10)
-    model.save('./ml/tmp/doc2vec')
+    model.save('./ml/doc2vec')
     
 def get_doc2vec_vectors(path_sentences):
-    model = Doc2Vec.load('./ml/tmp/doc2vec')
+    model = Doc2Vec.load('./ml/doc2vec')
     emb_dim = model.vector_size
     with open(path_sentences, 'r+') as f:
         lines = f.readlines()
@@ -48,7 +48,12 @@ def formatting_ml_input(path_sentences, path_labels):
     return sentences, labels
 
 if __name__ == '__main__':
-    path_sentences = './ml/input/sentences.txt'
-    path_labels = './ml/input/labels.txt'
+    path_sentences = './ressources/sentences.txt'
+#    path_labels = './ml/input/labels.txt'
     training_doc2vec(path_sentences)
-    sentences, labels = formatting_ml_input(path_sentences, path_labels)
+    
+#    model = Doc2Vec.load('./ml/doc2vec')
+#    print(model.similar_by_word('', topn=10, restrict_vocab=None))
+#    sentences, labels = formatting_ml_input(path_sentences, path_labels)
+#    print(TaggedLineDocument("./ressources/HarryPotter"))
+
