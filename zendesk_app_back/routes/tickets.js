@@ -39,7 +39,7 @@ var getConfig = function(id) {
     };
 };
 
-var computeProposals = function(json, resp) {
+var computeProposalsChat = function(json, resp) {
     var PythonShell = require('python-shell');
 
     var body = getBody(json);
@@ -58,6 +58,30 @@ var computeProposals = function(json, resp) {
     });
 };
 
+var computeProposalsEmail = function(json, resp) {
+    var PythonShell = require('python-shell');
+
+    var comment = getLastComment(json); console.log(comment);
+    var args = ["email", comment];
+
+    var options = {
+        mode: 'text',
+        pythonOptions: ['-u'],
+        args: args
+    };
+
+    PythonShell.run('machine_learning/doc2vec.py', options, function(err, message) {
+        if (err) {console.log(err);}
+        console.log(message);
+        sendResult(resp, message);
+    });
+};
+
+var getLastComment = function (json) {
+    var comments = json.comments;
+    return comments[comments.length - 1].body;
+}
+
 var getComments = function (id, resp) {
 
     var options = getConfig(id);
@@ -69,7 +93,7 @@ var getComments = function (id, resp) {
         });
         res.on('end', function() {
             json = JSON.parse(json);
-            computeProposals(json, resp);
+            computeProposalsEmail(json, resp);
         });
     });
 };
