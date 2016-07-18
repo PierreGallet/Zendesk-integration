@@ -53,8 +53,10 @@ if __name__ == '__main__':
 #    training_doc2vec(path_sentences)
     
     model = Doc2Vec.load('./ml/doc2vec')
-    print(model.similar_by_word('Harry', topn=10, restrict_vocab=None))
-#    print(model.most_similar(positive=['princess', 'man'], negative=['woman'], topn=10, restrict_vocab=None))
+    print(model.similar_by_word('purple', topn=3, restrict_vocab=None))
+    print(model.similar_by_word('blue', topn=3, restrict_vocab=None))
+#    print(model.similar_by_vector([1,2]))
+    print(model.most_similar(positive=['blue', 'purple'], negative=[], topn=3, restrict_vocab=None))
 #    print(model.doesnt_match("cereal breakfast dinner lunch".split()))
 #    sentences, labels = formatting_ml_input(path_sentences, path_labels)
 #    print(TaggedLineDocument("./ressources/HarryPotter"))

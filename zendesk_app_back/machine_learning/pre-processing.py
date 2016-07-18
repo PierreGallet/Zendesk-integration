@@ -13,7 +13,7 @@ def parse_txt(txt):
     carriage_returns = ['\n', '\r\n']
     word_regex = "^[a-zàâçéèêëîïôûùüÿñæœ/+ .-]+$"
     stop_words_set = set()
-    stopwordsfile = stopwords.words('english')
+    stopwordsfile = stopwords.words('french')
     for word in stopwordsfile:  # a stop word in each line
         word = word.replace("\n", '')
         word = word.replace("\r\n", '')
@@ -139,4 +139,4 @@ if __name__ == '__main__':
     # else:
     #     preprocessing_diroftxt(datadir, path_sentences, path_labels)
     #preprocessing_paraphrase(path_sentences, path_sentences_1, path_sentences_2, path_labels)
-    
+    print(parse_txt("Coucou, ceci est un message de test pour savoir si j'suis pas un toto"))
