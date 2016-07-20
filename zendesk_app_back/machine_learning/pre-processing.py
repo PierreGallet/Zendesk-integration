@@ -65,6 +65,7 @@ def preprocess_wikipedia():
         os.mkdir(datadir + 'preprocessed')
 
     for filename in os.listdir(datadir + 'raw'):
+        print("Doing file "+filename)
         input_file = open(datadir + 'raw/' + filename, 'r')
         raw_text = input_file.read()
         input_file.close()
@@ -75,28 +76,4 @@ def preprocess_wikipedia():
 
 
 if __name__ == '__main__':
-    ### for Deep learning ####
-    # datadir = './data/Stanford - IMDB review sentiment analysis dataset/ang/test'
-    # os.mkdir('./dl')
-    # os.mkdir('./dl/tmp')
-    # os.mkdir('./dl/tmp/models_saved')
-    # os.mkdir('./dl/input')
-    # os.mkdir('./dl/input/test')
-    # os.mkdir('./dl/input/formated')
-    # os.mkdir('./dl/input/formated/test')
-    # path_sentences = './dl/input/test/sentences.txt'
-    # path_labels = './dl/input/test/labels.txt'
-    # #### for Machine learning ####
-    # datadir = './data/kaggle - Bag of Words Meets Bags of Popcorn/train.csv'
-    #
-    # os.mkdir('./ml')
-    # os.mkdir('./ml/tmp')
-    # os.mkdir('./ml/tmp/models_saved')
-    # os.mkdir('./ml/input')
-    # os.mkdir('./ml/input/formated')
-    #
-    # path_sentences = './ml/input/sentences.txt'
-    # path_labels = './ml/input/labels.txt'
-    ################################
-
     preprocess_wikipedia()

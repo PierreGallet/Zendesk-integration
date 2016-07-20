@@ -5,3 +5,4 @@ zendesk_app_back/config/default.json
 zendesk_app_back/machine_learning/ml/**
 __pycache__/
 *.pyc
+wikipedia/

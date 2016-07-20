@@ -48,7 +48,7 @@ def formatting_ml_input(path_sentences, path_labels):
     return sentences, labels
 
 if __name__ == '__main__':
-    path_sentences = './ressources/dataset_AA.txt'
+    path_sentences = './ressources/wikipedia/raw/dataset_AA.txt'
 #    path_labels = './ml/input/labels.txt'
     training_doc2vec(path_sentences)
     
