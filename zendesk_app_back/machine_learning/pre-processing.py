@@ -60,13 +60,19 @@ def parse_txt(txt):
     return clean_txt
 
 def preprocess_wikipedia():
-    input_file = open('test/test_preprocessing.txt', 'r')
-    raw_text = input_file.read()
-    input_file.close()
+    datadir = './ressources/wikipedia/'
+    if not os.path.exists(datadir + 'preprocessed'):
+        os.mkdir(datadir + 'preprocessed')
 
-    output_file = open('test/test_preprocessed.txt', 'a')
-    for line in split_sentences(raw_text):
-        output_file.write(parse_txt(line) + '.\n')
+    for filename in os.listdir(datadir + 'raw'):
+        input_file = open(datadir + 'raw/' + filename, 'r')
+        raw_text = input_file.read()
+        input_file.close()
+
+        output_file = open(datadir + 'preprocessed/' + filename, 'a')
+        for line in split_sentences(raw_text):
+            output_file.write(parse_txt(line) + '.\n')
+
 
 if __name__ == '__main__':
     ### for Deep learning ####
