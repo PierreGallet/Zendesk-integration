@@ -6,3 +6,4 @@ zendesk_app_back/machine_learning/ml/**
 __pycache__/
 *.pyc
 wikipedia/
+zendesk_app_back/machine_learning/doc2vec/
