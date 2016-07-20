@@ -59,6 +59,15 @@ def parse_txt(txt):
                 pass
     return clean_txt
 
+def preprocess_wikipedia():
+    input_file = open('test/test_preprocessing.txt', 'r')
+    raw_text = input_file.read()
+    input_file.close()
+
+    output_file = open('test/test_preprocessed.txt', 'a')
+    for line in split_sentences(raw_text):
+        output_file.write(parse_txt(line) + '.\n')
+
 if __name__ == '__main__':
     ### for Deep learning ####
     # datadir = './data/Stanford - IMDB review sentiment analysis dataset/ang/test'
@@ -84,8 +93,4 @@ if __name__ == '__main__':
     # path_labels = './ml/input/labels.txt'
     ################################
 
-    file = open('test/test_preprocessing.txt', 'r')
-    for line in split_sentences(file.read()):
-        print(line)
-    file.close()
-    #print(parse_txt("Coucou, ceci est un message de test pour savoir si j'suis pas un toto\nsCeci est la deuxième phrase !"))
+    preprocess_wikipedia()
