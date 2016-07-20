@@ -14,7 +14,7 @@
     requests: {
         post: function(json) {
             return {
-            url: 'http://c9b8a567.ngrok.io/api/v1/tickets', // url du serveur node
+            url: 'http://3d2a3786.ngrok.io/api/v1/tickets', // url du serveur node
             type: 'POST',
             contentType: "application/json", // objet envoyé au serveur
             data: JSON.stringify(json) // ajoute les guillemets ou il faut
