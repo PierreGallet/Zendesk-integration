@@ -79,7 +79,6 @@ def preprocess_wikipedia():
         lines = ""
         for line in split_sentences(raw_text):
             lines += parse_txt(line) + '.\n'
-
         output_file = open(datadir + 'preprocessed/' + filename, 'a')
         output_file.write(lines)
         output_file.close()
