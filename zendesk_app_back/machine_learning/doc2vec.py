@@ -1,4 +1,6 @@
-#coding: utf8
+#!/usr/bin/env python2
+# -*- coding: utf-8 -*-
+
 from __future__ import print_function
 from gensim.models.doc2vec import Doc2Vec, TaggedLineDocument
 from gensim.models import doc2vec
