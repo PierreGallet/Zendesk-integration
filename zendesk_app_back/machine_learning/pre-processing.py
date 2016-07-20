@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import print_function
-import os, urllib, json, shutil, sys, time, csv, re, codecs, unicodedata, glob
+import os, urllib, json, shutil, sys, time, csv, re, codecs, unicodedata, glob, timeit, sys
 from nltk.corpus import stopwords
 
 
@@ -61,12 +61,17 @@ def parse_txt(txt):
     return clean_txt
 
 def preprocess_wikipedia():
+    global_start_time = timeit.default_timer()
+
     datadir = './ressources/wikipedia/'
     if not os.path.exists(datadir + 'preprocessed'):
         os.mkdir(datadir + 'preprocessed')
 
     for filename in os.listdir(datadir + 'raw'):
-        print("Doing file " + filename)
+        local_start_time = timeit.default_timer()
+        print("Pre-processing file " + filename, end=' ')
+        sys.stdout.flush()
+
         input_file = open(datadir + 'raw/' + filename, 'r')
         raw_text = input_file.read()
         input_file.close()
@@ -78,6 +83,10 @@ def preprocess_wikipedia():
         output_file = open(datadir + 'preprocessed/' + filename, 'a')
         output_file.write(lines)
         output_file.close()
+
+        print("( computing time : %fs, elapsed time : %fs )" % ((timeit.default_timer() - local_start_time), (timeit.default_timer() - global_start_time)))
+
+    print("Elapsed time : %fs" % (timeit.default_timer() - global_start_time))
 
 
 if __name__ == '__main__':
