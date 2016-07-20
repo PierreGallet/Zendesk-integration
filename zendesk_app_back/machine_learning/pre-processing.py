@@ -6,10 +6,18 @@ from nltk.corpus import stopwords
 def line_wrapper(txt_path):
     output = open(txt_path+".line_wrapped.txt", 'a')
     txt = open(txt_path, 'r')
-    lines = txt.read().split('. ')
+
+    mark = ['.', '!', '?']
+    carriage_returns = ['\n', '\r\n']
+
+    lines = txt.read()
+    for char in carriage_returns:
+        lines = lines.replace(char, '')
+    lines = re.split('\s*\.\s*', lines)
+
     for line in lines:
         if line:
-            output.write('\n'+line+".")
+            output.write(line + ".\n")
     
 
 def parse_txt(txt):
