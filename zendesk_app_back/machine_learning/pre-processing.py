@@ -84,7 +84,7 @@ if __name__ == '__main__':
     # path_labels = './ml/input/labels.txt'
     ################################
 
-    file = open('test.txt', 'r')
+    file = open('test/test_preprocessing.txt', 'r')
     for line in split_sentences(file.read()):
         print(line)
     file.close()
