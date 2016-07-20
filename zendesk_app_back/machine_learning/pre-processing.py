@@ -1,24 +1,26 @@
-# coding: utf8
+# -*- coding: utf-8 -*-
+
 from __future__ import print_function
 import os, urllib, json, shutil, sys, time, csv, re, codecs, unicodedata, glob
 from nltk.corpus import stopwords
 
-def line_wrapper(txt_path):
-    output = open(txt_path+".line_wrapped.txt", 'a')
-    txt = open(txt_path, 'r')
 
+def split_sentences(lines):
+    """
+    Split paragraph into array of sentences
+    :param txt: one or more paragraph
+    :return: array of sentences
+    """
     mark = ['.', '!', '?']
     carriage_returns = ['\n', '\r\n']
 
-    lines = txt.read()
     for char in carriage_returns:
         lines = lines.replace(char, '')
     lines = re.split('\s*\.\s*', lines)
 
     for line in lines:
         if line:
-            output.write(line + ".\n")
-    
+            yield line
 
 def parse_txt(txt):
     """
@@ -57,57 +59,6 @@ def parse_txt(txt):
                 pass
     return clean_txt
 
-def preprocessing_csv(datadir, path_sentences, path_labels):
-    with open(path_sentences, 'w+') as sentences:
-        with open(path_labels, 'w+') as labels:
-            with open(datadir, 'rb') as f:
-                reader = csv.DictReader(f, fieldnames=['label', 'sentence'], delimiter=';')
-                for row in reader:
-                    txt = parse_txt(row['sentence'])
-                    label = row['label']
-                    if not label == 'label':
-                        sentences.write(txt+'\n')
-                        labels.write(label+'\n')
-    return path_sentences, path_labels
-
-def preprocessing_diroftxt(datadir, path_sentences, path_labels):
-    with open(path_sentences, 'w+') as sentences:
-        with open(path_labels, 'w+') as labels:
-            j = 0
-            for directory in glob.glob(datadir+'/*'):
-                files = os.listdir(directory)
-                print('dealing with', directory)
-                for i in range(len(files)):
-                    with open(directory+'/'+files[i]) as f:
-                        txt = parse_txt(f.read())
-                        if directory.split('/')[-1] == 'pos':
-                            label = str(1)
-                        else:
-                            label = str(0)
-                        sentences.write(txt+'\n')
-                        labels.write(label+'\n')
-                        j += 1
-    print(str(j) + ' sentences preprocessed in total')
-    return path_sentences, path_labels
-
-def preprocessing_paraphrase(path_sentences, path_sentences_1, path_sentences_2, path_labels):
-    with open(path_sentences, 'w+') as sentences:
-        with open(path_sentences_1, 'w+') as sentences_1:
-            with open(path_sentences_2, 'w+') as sentences_2:
-                with open(path_labels, 'w+') as labels:
-                    j = 0
-                    with open(datadir) as f:
-                        # print(f.read().splitlines())
-                        for line in f.read().splitlines():
-                            if (j % 3 == 0):
-                                labels.write(line+'\n')
-                            elif (j % 3 == 1):
-                                sentences_1.write(parse_txt(line)+'\n')
-                                sentences.write(parse_txt(line)+'\n')
-                            else:
-                                sentences_2.write(parse_txt(line)+'\n')
-                                sentences.write(parse_txt(line)+'\n')
-                            j += 1
 if __name__ == '__main__':
     ### for Deep learning ####
     # datadir = './data/Stanford - IMDB review sentiment analysis dataset/ang/test'
@@ -131,33 +82,10 @@ if __name__ == '__main__':
     #
     # path_sentences = './ml/input/sentences.txt'
     # path_labels = './ml/input/labels.txt'
-    ### for Paraphrase detection ###
-    #datadir = './data/MRPC/train.txt'
-    # try:
-    #     shutil.rmtree('./pd')
-    # except:
-    #     pass
-    # os.mkdir('./pd')
-    # os.mkdir('./pd/tmp')
-    # os.mkdir('./pd/tmp/models_saved')
-    # os.mkdir('./pd/input')
-    # os.mkdir('./pd/input/train')
-    # os.mkdir('./pd/input/test')
-    # os.mkdir('./pd/input/formated')
-    # os.mkdir('./pd/input/formated/train')
-    # os.mkdir('./pd/input/formated/test')
-    #path_sentences = './pd/input/train/sentences.txt'
-    #path_sentences_1 = './pd/input/train/sentences_1.txt'
-    #path_sentences_2 = './pd/input/train/sentences_2.txt'
-    #path_labels = './pd/input/train/labels.txt'
     ################################
-    # if datadir.split('.')[-1] == 'csv':
-    #     preprocessing_csv(datadir, path_sentences, path_labels)
-    # else:
-    #     preprocessing_diroftxt(datadir, path_sentences, path_labels)
-    #preprocessing_paraphrase(path_sentences, path_sentences_1, path_sentences_2, path_labels)
-    
-    line_wrapper('test.txt')
 
-#    with open('ressources/dataset_AA.txt', 'r') as sentences:
-#        print(parse_txt(sentences.read()))
+    file = open('test.txt', 'r')
+    for line in split_sentences(file.read()):
+        print(line)
+    file.close()
+    #print(parse_txt("Coucou, ceci est un message de test pour savoir si j'suis pas un toto\nsCeci est la deuxième phrase !"))

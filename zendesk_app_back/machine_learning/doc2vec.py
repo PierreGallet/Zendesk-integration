@@ -15,7 +15,7 @@ logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=lo
 def training_doc2vec(path_sentences, size=10000):
     documents = TaggedLineDocument(path_sentences)
     model = Doc2Vec(documents, size, window=15, min_count=10)
-    model.save('./ml/doc2vec')
+    model.save('./doc2vec/dataset')
     
 def get_doc2vec_vectors(path_sentences):
     model = Doc2Vec.load('./ml/doc2vec')
@@ -48,15 +48,15 @@ def formatting_ml_input(path_sentences, path_labels):
     return sentences, labels
 
 if __name__ == '__main__':
-    path_sentences = './ressources/sentences.txt'
+    path_sentences = './ressources/dataset_AA.txt'
 #    path_labels = './ml/input/labels.txt'
-#    training_doc2vec(path_sentences)
+    training_doc2vec(path_sentences)
     
-    model = Doc2Vec.load('./ml/doc2vec')
-    print(model.similar_by_word('purple', topn=3, restrict_vocab=None))
-    print(model.similar_by_word('blue', topn=3, restrict_vocab=None))
+#    model = Doc2Vec.load('./ml/doc2vec')
+#    print(model.similar_by_word('purple', topn=3, restrict_vocab=None))
+#    print(model.similar_by_word('blue', topn=3, restrict_vocab=None))
 #    print(model.similar_by_vector([1,2]))
-    print(model.most_similar(positive=['blue', 'purple'], negative=[], topn=3, restrict_vocab=None))
+#    print(model.most_similar(positive=['blue', 'purple'], negative=[], topn=3, restrict_vocab=None))
 #    print(model.doesnt_match("cereal breakfast dinner lunch".split()))
 #    sentences, labels = formatting_ml_input(path_sentences, path_labels)
 #    print(TaggedLineDocument("./ressources/HarryPotter"))
