@@ -5,13 +5,22 @@ import os, urllib, json, shutil, sys, time, csv, re, codecs, unicodedata, glob
 from nltk.corpus import stopwords
 
 
-def split_sentences(txt):
+def split_sentences(lines):
     """
     Split paragraph into array of sentences
     :param txt: one or more paragraph
     :return: array of sentences
     """
-    pass
+    mark = ['.', '!', '?']
+    carriage_returns = ['\n', '\r\n']
+
+    for char in carriage_returns:
+        lines = lines.replace(char, '')
+    lines = re.split('\s*\.\s*', lines)
+
+    for line in lines:
+        if line:
+            yield line
 
 def parse_txt(txt):
     """
@@ -75,4 +84,8 @@ if __name__ == '__main__':
     # path_labels = './ml/input/labels.txt'
     ################################
 
-    print(parse_txt("Coucou, ceci est un message de test pour savoir si j'suis pas un toto\nsCeci est la deuxième phrase !"))
+    file = open('test.txt', 'r')
+    for line in split_sentences(file.read()):
+        print(line)
+    file.close()
+    #print(parse_txt("Coucou, ceci est un message de test pour savoir si j'suis pas un toto\nsCeci est la deuxième phrase !"))
