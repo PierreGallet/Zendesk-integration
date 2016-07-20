@@ -1,0 +1,7 @@
+Bonjour, ceci est un texte de test visant à lignifier un document. En effet, le script de deep learning que nous souhaitons utiliser nécessite une ligne pour une phrase, ce qui est embêtant quand on veut analyser un document, vous conviendrez. Il devient alors nécessaire de parser tout ceci.
+
+Cordialement, 
+
+
+
+Djou.

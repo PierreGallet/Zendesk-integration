@@ -3,6 +3,15 @@ from __future__ import print_function
 import os, urllib, json, shutil, sys, time, csv, re, codecs, unicodedata, glob
 from nltk.corpus import stopwords
 
+def line_wrapper(txt_path):
+    output = open(txt_path+".line_wrapped.txt", 'a')
+    txt = open(txt_path, 'r')
+    lines = txt.read().split('. ')
+    for line in lines:
+        if line:
+            output.write('\n'+line+".")
+    
+
 def parse_txt(txt):
     """
     Splits a string into an lean string without punctiation, carriage returns & stopwords.
@@ -139,4 +148,8 @@ if __name__ == '__main__':
     # else:
     #     preprocessing_diroftxt(datadir, path_sentences, path_labels)
     #preprocessing_paraphrase(path_sentences, path_sentences_1, path_sentences_2, path_labels)
-    print(parse_txt("Coucou, ceci est un message de test pour savoir si j'suis pas un toto"))
+    
+    line_wrapper('test.txt')
+
+#    with open('ressources/dataset_AA.txt', 'r') as sentences:
+#        print(parse_txt(sentences.read()))
