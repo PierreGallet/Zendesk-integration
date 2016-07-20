@@ -12,7 +12,7 @@ def split_sentences(lines):
     :param txt: one or more paragraph
     :return: array of sentences
     """
-    mark = ['.', '!', '?']
+    mark = ['.', '!', '?', ':']
     carriage_returns = ['\n', '\r\n']
 
     for char in carriage_returns:
@@ -66,14 +66,18 @@ def preprocess_wikipedia():
         os.mkdir(datadir + 'preprocessed')
 
     for filename in os.listdir(datadir + 'raw'):
-        print("Doing file "+filename)
+        print("Doing file " + filename)
         input_file = open(datadir + 'raw/' + filename, 'r')
         raw_text = input_file.read()
         input_file.close()
 
-        output_file = open(datadir + 'preprocessed/' + filename, 'a')
+        lines = ""
         for line in split_sentences(raw_text):
-            output_file.write(parse_txt(line) + '.\n')
+            lines += parse_txt(line) + '.\n'
+
+        output_file = open(datadir + 'preprocessed/' + filename, 'a')
+        output_file.write(lines)
+        output_file.close()
 
 
 if __name__ == '__main__':
